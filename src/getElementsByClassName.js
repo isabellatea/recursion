@@ -1,10 +1,23 @@
-// If life was easy, we could just do things the easy way:
-// var getElementsByClassName = function (className) {
-//   return document.getElementsByClassName(className);
-// };
+var getElementsByClassName = function(className) {
+  var results = [];
+  var allElements = document.body;
 
-// But instead we're going to implement it from scratch:
-var getElementsByClassName = function(className
-) {
-  // your code here
+  var checkForMatch = function(node){
+    if (node.classList && node.classList.contains(className)){
+    results.push(node);
+    }
+  }
+
+  var traverseDown = function(node, callback){
+    callback(node);
+    node = node.firstChild;
+    while(node){
+      traverseDown(node, callback);
+      node = node.nextSibling;
+    }
+  }
+
+  traverseDown(allElements, checkForMatch);
+  return results;
+
 };
